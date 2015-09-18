@@ -1,0 +1,30 @@
+- var party_link = udata.name + '/party'
+div#nav-main.nav-sprite
+    div.nav-left
+        div.dropdown
+            button(class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown") category 
+                span.caret
+            ul.dropdown-menu
+                li 
+                    a(href=party_link, class='goto-party') party
+                li 
+                    a(href='#') shuttle
+                    
+    div.nav-right
+        div#nav-tools
+            a(href='/',class='nav-a nav-a-2' data-nav-ref="nav_ya_signin" data-nav-role="signin" data-nav-tabindex="25" id="nav-link-yourAccount" tabindex="1")
+                span.nav-line-1 hello
+                span.nav-line-2 #{udata.name}
+                    span(class='nav-icon nav-arrow' style="visibility: visible;")
+            a(href='/',class="nav-a nav-a-2" data-nav-tabindex="26" id="nav-link-prime" tabindex="1")
+                span.nav-line-1 log out
+                span.nav-line-2 
+    div.nav-fill
+        div#nav-xshop-container
+            div#nav-supra.nav-supra-points
+                a(href='/', class="nav-a" data-nav-tabindex="6" tabindex="1") Amazonポイント
+                span.nav-span : 
+                a(href='/', class="nav-a" data-nav-tabindex="7" tabindex="1") 残高を確認        
+            div#nav-xshop
+                a(href='/', class="nav-a" data-nav-tabindex="8" tabindex="1") マイストア
+                a(href='/', class="nav-a" data-nav-tabindex="9" tabindex="1") ギフト券 

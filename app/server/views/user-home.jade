@@ -1,0 +1,24 @@
+extends user-layout
+- user = typeof(udata) != 'undefined' ? udata : { }
+
+block content
+    .home-content
+        block navi
+            div.navbar
+                include user-navi
+        block container
+            #user-container
+                include user-container
+block footer
+    #footer
+        include user-footer
+block scripts
+    script(src='/vendor/jquery.min.js')
+    // script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js")    
+    script(src='/vendor/jquery.form.js')
+    script(src='/vendor/bootstrap-modal.js')
+    script(src='/vendor/bootstrap-transition.js')
+    script(src='/js/controllers/homeController.js')
+    script(src='/js/form-validators/accountValidator.js')
+    // script(src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js")
+    script(src='/js/views/home.js')
