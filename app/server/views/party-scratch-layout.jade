@@ -8,7 +8,11 @@ block content
                 include user-navi
         block container
             #user-content
-                include user-container
+                #temp-div
+                    #party-dashboard
+                        include party-dashboard
+                    #party-scratch        
+                        block party-scratch
 block footer
     #footer
         include user-footer
@@ -17,6 +21,8 @@ block scripts
     script(src='/vendor/jquery.form.js')
     script(src='/vendor/bootstrap-modal.js')
     script(src='/vendor/bootstrap-transition.js')
-    script(src='/js/controllers/homeController.js')
+    script(src='/js/controllers/homeController.js')    
     script(src='/js/form-validators/accountValidator.js')
-    script(src='/js/views/home.js')
+    script(src='/js/views/party-dashboard.js')
+    // script(src='/js/views/home.js')
+    script(src='/js/views/party-scratch.js')

@@ -16,7 +16,11 @@ html, body {
     border-color: black;
 }
 
-#user-container {
+.party-label{
+    color : white;
+}
+
+#user-content {
     /* height : 90%; */
     background : #232f3e;
     display: table-row;
@@ -24,7 +28,7 @@ html, body {
     border-color: black;
 }
 
-#temp_div {
+#temp-div {
     height : 100%;
     width : 100%;
     display : table;
@@ -45,6 +49,21 @@ html, body {
     display : table-cell;
     /* display : inline-block; */
     /* overflow : auto; */      
+}
+
+.modal-body hr{
+    margin-top : 2px;
+}
+.modal-body td label{
+    width : 70px;
+}
+.modal-body td input{
+    width : 50px;
+}
+    
+
+#create-party-form{
+    color : white;
 }
 
 /***************** table-cell *****************/

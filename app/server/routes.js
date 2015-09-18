@@ -8,7 +8,8 @@ module.exports = function(app) {
 // main login page //
 
 	app.get('/', function(req, res){
-	// check if the user's credentials are saved in a cookie //
+	    // check if the user's credentials are saved in a cookie //
+        // console.log(req.cookies);
 		if (req.cookies.user == undefined || req.cookies.pass == undefined){
 			res.render('login', { title: 'Hello - Please Login To Your Account' });
 		}	else{
@@ -39,21 +40,6 @@ module.exports = function(app) {
 		});
 	});
 	
-// logged-in user homepage //
-	
-	// app.get('/home', function(req, res) {
-	// 	if (req.session.user == null){
-	// // if user is not logged-in redirect back to login page //
-	// 		res.redirect('/');
-	// 	}	else{
-	// 		res.render('home', {
-	// 			title : 'Control Panel',
-	// 			countries : CT,
-	// 			udata : req.session.user
-	// 		});
-	// 	}
-	// });
-
 	app.get('/home', function(req, res) {
 		if (req.session.user == null){
 	// if user is not logged-in redirect back to login page //
@@ -194,6 +180,34 @@ module.exports = function(app) {
 		});
 	});
 
+    // show parties list
+    app.get('/parties', function(req, res){
+        if (req.session.user == null){
+	        // if user is not logged-in redirect back to login page //
+			res.redirect('/');
+		}else{
+			res.render('parties', {
+				title : 'My Page',
+				countries : CT,
+				udata : req.session.user
+			});
+		}        
+    });
+
+    app.get('/party/create', function(req, res){
+        if (req.session.user == null){
+	        // if user is not logged-in redirect back to login page //
+			res.redirect('/');
+		}else{
+            console.log("party create");
+			res.render('user-party-create', {
+				title : 'My Page',
+				countries : CT,
+				udata : req.session.user
+			});
+		}      
+    });
+    
     app.get('/:username([a-z]+)/party', function(req, res){
         console.log("parse successful");
         // res.status(200).send('ok');
@@ -201,7 +215,7 @@ module.exports = function(app) {
         // res.render('login', { title: 'Hello - Please Login To Your Account' });
         res.status(200).send({ title: 'Signup', udata : req.session.user });
     });
-
+    
     app.post('/party', function(req, res){
         PM.addNewParty({
 			party_description 	: req.body['party_des'],
@@ -218,7 +232,13 @@ module.exports = function(app) {
 		});
     });
     
-	app.get('*', function(req, res) { res.render('404', { title: 'Page Not Found'}); });
+	app.get('*', function(req, res) {
+        var href = req.protocol + "://"+ req.get('Host') + req.url;
+        console.log(req.get("Host"));
+        console.log(req.url);
+        
+        console.log("href " + href + "\r\n");
+        res.render('404', { title: 'Page Not Found'}); });
 
 };
 
