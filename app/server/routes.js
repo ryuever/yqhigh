@@ -199,7 +199,7 @@ module.exports = function(app) {
 	        // if user is not logged-in redirect back to login page //
 			res.redirect('/');
 		}else{
-            console.log("party create");
+            console.log("present party create form");
 			res.render('user-party-create', {
 				title : 'My Page',
 				countries : CT,
@@ -211,22 +211,36 @@ module.exports = function(app) {
     app.post('/party/create', function(req, res){
         console.log("insert a party");
         console.log(req.body);
-        console.log(req);
-        // res.redirect('/');
-        // res.status(200).send({ title: 'Signup', udata : req.session.user });
-        // PM.addNewParty({
-		// 	party_description : req.body['party_des'],
-		//     party_time 	      : req.body['party_time'],
-		// 	party_food 	      : req.body['party_food']
-		// }, function(e){
-		// 	if (e){
-        //         console.log("insert with error");
-		// 		res.status(400).send(e);
-		// 	}	else{
-        //         console.log("insert success");
-		// 		res.status(200).send('ok');
-		// 	}
-		// });
+
+        if (req.session.user == null){
+	        // if user is not logged-in redirect back to login page //
+			res.redirect('/');
+		}else{
+            PM.addNewParty({
+			    party_theme      : req.body['party_theme'],                
+		        party_time 	     : req.body['party_time'],
+                party_creat_time : req.body['party_create_time'],
+                party_menu       : req.body['party_menu'],
+                manager          : req.session.user['user'],
+                member           : [req.session.user['user']]
+		    }, function(e){
+			    if (e){
+                    console.log("insert with error");
+                    res.json({"status":"error"});
+				    // res.status(400).send(e);
+			    }	else{
+                    console.log("insert success");
+                    res.json({"status":"success"});
+				    // res.status(200).send('ok');
+			    }
+		    });
+			// res.render('parties', {
+			// 	title : 'My Page',
+			// 	countries : CT,
+			// 	udata : req.session.user
+			// });
+		}                
+
     });
     
     app.get('/:username([a-z]+)/party', function(req, res){
@@ -255,10 +269,10 @@ module.exports = function(app) {
     
 	app.get('*', function(req, res) {
         var href = req.protocol + "://"+ req.get('Host') + req.url;
-        console.log(req.get("Host"));
-        console.log(req.url);
+        // console.log(req.get("Host"));
+        // console.log(req.url);
         
-        console.log("href " + href + "\r\n");
+        // console.log("href " + href + "\r\n");
         res.render('404', { title: 'Page Not Found'}); });
 
 };

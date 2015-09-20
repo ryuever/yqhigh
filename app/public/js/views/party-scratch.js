@@ -1,5 +1,5 @@
 $(document).ready(function(){
-
+	var av = new AccountValidator();
     $("#party-time").datetimepicker();
 
     $('body').on('click', function (e) {
@@ -12,29 +12,29 @@ $(document).ready(function(){
         });
     });
     // modal initialization    
-    var huoguo = document.getElementById('selected-huoguo-food');
-    huoguo.setAttribute('title', "selected food");
-    huoguo.setAttribute('data-content', "No food");
-    huoguo.setAttribute('data-html', "true");
+    var huoguo_food_selected = document.getElementById('selected-huoguo-food');
+    huoguo_food_selected.setAttribute('title', "selected food");
+    huoguo_food_selected.setAttribute('data-content', "No food");
+    huoguo_food_selected.setAttribute('data-html', "true");
     $('#selected-huoguo-food').popover();
 
-    var kaorou = document.getElementById('selected-kaorou-food');
-    kaorou.setAttribute('title', "selected food");
-    kaorou.setAttribute('data-content', "No food");    
-    kaorou.setAttribute('data-html', "true");
+    var kaorou_food_selected = document.getElementById('selected-kaorou-food');
+    kaorou_food_selected.setAttribute('title', "selected food");
+    kaorou_food_selected.setAttribute('data-content', "No food");    
+    kaorou_food_selected.setAttribute('data-html', "true");
     $('#selected-kaorou-food').popover();
 
-    var jiaozi = document.getElementById('selected-jiaozi-food');
-    jiaozi.setAttribute('title', "selected food");
-    jiaozi.setAttribute('data-content', "No food");    
-    jiaozi.setAttribute('data-html', "true");
+    var jiaozi_food_selected = document.getElementById('selected-jiaozi-food');
+    jiaozi_food_selected.setAttribute('title', "selected food");
+    jiaozi_food_selected.setAttribute('data-content', "No food");    
+    jiaozi_food_selected.setAttribute('data-html', "true");
     $('#selected-jiaozi-food').popover();
     
     $("#huoguo").change(function() {
         if(this.checked) {
             $("#huoguo-modal").modal();
         }else{
-            huoguo.setAttribute('data-content', "No food");
+            huoguo_food_selected.setAttribute('data-content', "No food");
         }
     });
 
@@ -42,14 +42,14 @@ $(document).ready(function(){
         if(this.checked) {
             $("#kaorou-modal").modal();
         }else{
-            kaorou.setAttribute('data-content', "No food");
+            kaorou_food_selected.setAttribute('data-content', "No food");
         }        
     });    
     $("#jiaozi").change(function() {
         if(this.checked) {
             $("#jiaozi-modal").modal();
         }else{
-            jiaozi.setAttribute('data-content', "No food");
+            jiaozi_food_selected.setAttribute('data-content', "No food");
         }        
     });
 
@@ -173,12 +173,77 @@ $(document).ready(function(){
         return food_list.outerHTML;
     }
     $("#huoguo-submit").click(function(){
-        huoguo.setAttribute('data-content', acquire_selected_options("huoguo"));
+        huoguo_food_selected.setAttribute('data-content', acquire_selected_options("huoguo"));
     });    
     $("#kaorou-submit").click(function(){
-        kaorou.setAttribute('data-content', acquire_selected_options("kaorou"));
+        kaorou_food_selected.setAttribute('data-content', acquire_selected_options("kaorou"));
     });    
     $("#jiaozi-submit").click(function(){
-        jiaozi.setAttribute('data-content', acquire_selected_options("jiaozi"));
-    });        
-});
+        jiaozi_food_selected.setAttribute('data-content', acquire_selected_options("jiaozi"));
+    });
+
+    var parser = document.createElement('a');
+    parser.href = location.href;
+    // form submit
+    $("#create-party-form").submit(function(event) {
+        event.preventDefault(); // Prevents the page from refreshing
+        var $this = $(this); // `this` refers to the current form element                
+
+        var huoguo_food_list = acquire_selected_options("huoguo");
+        var kaorou_food_list = acquire_selected_options("kaorou");
+        var jiaozi_food_list = acquire_selected_options("jiaozi");
+        
+        var reg = /<label>(.*?)<\/label>/g;        
+        var match;
+        var huoguo_results = [];
+        while (match = reg.exec(huoguo_food_list)){
+            huoguo_results.push(match[1]);
+        }
+
+        // var kaorou_results = [];
+        // while (kaorou_match = reg.exec(kaorou_food_list)){
+        //     kaorou_results.push(kaorou_match[1]);
+        // }
+        var kaorou_results = [];
+        while (match = reg.exec(kaorou_food_list)){
+            kaorou_results.push(match[1]);
+        }
+
+        var jiaozi_results = [];
+        while (match = reg.exec(jiaozi_food_list)){
+            jiaozi_results.push(match[1]);
+        }
+        console.log(huoguo_results, kaorou_results, jiaozi_results);
+        console.log(huoguo_food_list + kaorou_food_list + jiaozi_food_list);
+
+        var Now = new Date();
+        var month = 0;
+        if (Now.getMonth() < 10)
+            month = '0' + (parseInt(Now.getMonth()) + 1).toString();
+        else
+            month = (parseInt(Now.getMonth()) + 1).toString();
+        var create_time = Now.getFullYear() + '/' + month
+                + '/' + Now.getDate() + ' ' + Now.getHours() + ':' + Now.getMinutes();
+
+        var party_data = {};
+        party_data['party_theme'] = $("#party-des").val();
+        party_data['party_time'] = $("#party-time").val();
+        party_data['party_create_time'] = create_time;
+        party_data['party_menu'] = {"huoguo" : huoguo_results,
+                                    "kaorou" : kaorou_results,
+                                    "jiaozi" : jiaozi_results
+                                   };
+        $.ajax({
+            url: location.href,
+            type: 'post',
+            dataType: 'json',
+            data: party_data,
+            success:function(response){
+                console.log(response);
+                // if (status == 'success') $('.modal-alert').modal('show');
+                alert("create successful !!");
+            }
+        });
+    });
+
+})

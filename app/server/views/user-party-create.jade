@@ -1,7 +1,7 @@
 extends party-scratch-layout
 
 block party-scratch
-    form(role='form' class="form-horizontal" id="create-party-form" method='post')
+    form(role='form' class="form-horizontal" id="create-party-form" method='post' action='/party/create')
         fieldset
             .form-group
                 label(for='party-des' class="col-sm-10 party-label") 添加描述创建一个新的聚餐
