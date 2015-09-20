@@ -207,6 +207,27 @@ module.exports = function(app) {
 			});
 		}      
     });
+
+    app.post('/party/create', function(req, res){
+        console.log("insert a party");
+        console.log(req.body);
+        console.log(req);
+        // res.redirect('/');
+        // res.status(200).send({ title: 'Signup', udata : req.session.user });
+        // PM.addNewParty({
+		// 	party_description : req.body['party_des'],
+		//     party_time 	      : req.body['party_time'],
+		// 	party_food 	      : req.body['party_food']
+		// }, function(e){
+		// 	if (e){
+        //         console.log("insert with error");
+		// 		res.status(400).send(e);
+		// 	}	else{
+        //         console.log("insert success");
+		// 		res.status(200).send('ok');
+		// 	}
+		// });
+    });
     
     app.get('/:username([a-z]+)/party', function(req, res){
         console.log("parse successful");
@@ -215,7 +236,7 @@ module.exports = function(app) {
         // res.render('login', { title: 'Hello - Please Login To Your Account' });
         res.status(200).send({ title: 'Signup', udata : req.session.user });
     });
-    
+
     app.post('/party', function(req, res){
         PM.addNewParty({
 			party_description 	: req.body['party_des'],

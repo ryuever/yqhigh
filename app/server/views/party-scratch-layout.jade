@@ -17,12 +17,16 @@ block footer
     #footer
         include user-footer
 block scripts
+    link(rel="stylesheet" type="text/css" href="/vendor/datetimepicker/jquery.datetimepicker.css")
     script(src='/vendor/jquery.min.js')
     script(src='/vendor/jquery.form.js')
     script(src='/vendor/bootstrap-modal.js')
     script(src='/vendor/bootstrap-transition.js')
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js")
+    script(src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js")    
+    script(src="/vendor/datetimepicker/jquery.datetimepicker.js")
     script(src='/js/controllers/homeController.js')    
     script(src='/js/form-validators/accountValidator.js')
     script(src='/js/views/party-dashboard.js')
-    // script(src='/js/views/home.js')
     script(src='/js/views/party-scratch.js')
+    

@@ -65,7 +65,22 @@ html, body {
 #create-party-form{
     color : white;
 }
+.popover-content,
+.popover-title{
+    color : black;
+}
 
+.food-link{
+    padding : 10px;
+}
+
+.btn-ctl{
+    margin : 10px;
+}
+
+.popover{
+    width : 300px;
+}
 /***************** table-cell *****************/
 /* #party-dashboard{ */
 /*     width : 150px; */
