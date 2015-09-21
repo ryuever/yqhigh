@@ -186,7 +186,7 @@ module.exports = function(app) {
 	        // if user is not logged-in redirect back to login page //
 			res.redirect('/');
 		}else{
-			res.render('parties', {
+			res.render('user-parties', {
 				title : 'My Page',
 				countries : CT,
 				udata : req.session.user

@@ -1,5 +1,10 @@
 extends party-scratch-layout
 
+block specified-script
+    link(rel="stylesheet" type="text/css" href="/vendor/datetimepicker/jquery.datetimepicker.css")
+    script(src='/js/views/party-scratch.js')    
+    script(src="/vendor/datetimepicker/jquery.datetimepicker.js")
+    
 block party-scratch
     form(role='form' class="form-horizontal" id="create-party-form" method='post' action='/party/create')
         fieldset

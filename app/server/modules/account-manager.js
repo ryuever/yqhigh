@@ -133,15 +133,15 @@ exports.getAllRecords = function(callback)
 {
 	accounts.find().toArray(
 		function(e, res) {
-		if (e) callback(e)
-		else callback(null, res)
+		    if (e) callback(e);
+		    else callback(null, res);
 	});
 };
 
 exports.delAllRecords = function(callback)
 {
 	accounts.remove({}, callback); // reset accounts collection for testing //
-}
+};
 
 /* private encryption & validation methods */
 
@@ -154,11 +154,11 @@ var generateSalt = function()
 		salt += set[p];
 	}
 	return salt;
-}
+};
 
 var md5 = function(str) {
 	return crypto.createHash('md5').update(str).digest('hex');
-}
+};
 
 var saltAndHash = function(pass, callback)
 {

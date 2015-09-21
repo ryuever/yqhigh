@@ -8,6 +8,9 @@ html, body {
     width : 100%;
     display:table;
 }
+.home_caption {
+    color : white;
+}
 
 .navbar {   
     height : 40px;
@@ -79,8 +82,16 @@ html, body {
 }
 
 .popover{
-    width : 300px;
+    width : 300px;    
 }
+
+
+.carousel-inner > .item > img,
+.carousel-inner > .item > a > img {
+    width: 55%;
+    margin: auto;
+}
+
 /***************** table-cell *****************/
 /* #party-dashboard{ */
 /*     width : 150px; */

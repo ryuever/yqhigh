@@ -21,3 +21,13 @@ exports.addNewParty = function(newData, callback)
 {
     parties.insert(newData, {safe: true}, callback);
 };
+
+
+exports.getAllRecords = function(callback)
+{
+	parties.find().toArray(
+		function(e, res) {
+		    if (e) callback(e);
+		    else callback(null, res);
+	});
+};
