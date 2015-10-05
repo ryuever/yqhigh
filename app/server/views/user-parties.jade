@@ -1,18 +1,89 @@
+//- extends party-scratch-layout
+
+//- //- - ttt = title
+//- //- - party_lt = 10
+//- //- - foo = "hello world"
+
+//- //- block specified-script
+
+//- //- block party-scratch
+//- //-     h1= foo
+//- //-     //- table.table.table-striped
+//-     //-     thread
+//-     //-         tr
+//-     //-             // th= party_list['party_theme']
+//-     //-             // th nihao #{records.party_theme}
+//-     //-             th= party_lt
+//-     //-             th= records
+//-     //-             th= foo
+//-     //-             th 料理
+//-     //-             th 参加人数
+//-     //-             th 费用
+//-     //-             th 人均
+//-     //-             th 负责人
+//-     //-             th 参加
+                
+//-     //- table.table.table-striped    
+//-     //-     // each item in records
+//-     //-     each item in party_lt
+//-     //-         tr
+//-     //-             th= item.party_theme
+//-     //-             th= index
+//-     //-             th= item.party_time
+//-     //-     // each item in party_list
+//-             //- tr
+//-             //-     th= item.party_theme
+//-             //-     th= 描述
+            
+            
+
+
+//- block content
+//-     - var uu = {description: 'foo bar baz'}
+//-     - var authorised = false
+//-     #user
+//-         //- if title
+//-         //-     h1= title
+//-         if uu['description']
+//-             h1= uu.description 
+//- block specified-script
+
+//- //- block party-scratch
+//- //-     #user
+//- //-         if uu.description
+//- //-             h2 Description
+//- //-             p.description= uu.description            
+            
+
+
 extends party-scratch-layout
 
 block specified-script
-    
 
 block party-scratch
-    table.table.table-striped
+    - var party_list = records
+    table.table.table-bordered.white-color
         thread
             tr
                 th 主题
-                th 描述
+                // th 描述
                 th 时间
                 th 料理
-                th 参加人数
-                th 费用
-                th 人均
+                // th 参加人数
+                //- th 费用
+                //- th 人均
+                th 预算人均
                 th 负责人
                 th 参加
+        each item in party_list
+            tr
+                td
+                    a(href="/parties/#{item._id}")= item.party_theme                        
+                // th
+                td= item.party_time
+                td= Object.keys(item.party_menu)
+                td
+                td 
+                td
+                    input(type="checkbox" value="")
+    

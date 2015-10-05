@@ -3,13 +3,17 @@ html, body {
     margin : 0px;
 }
 
+.white-color{
+    /* color : white; */
+}
+
 .home-content {
     height : 95%;
     width : 100%;
     display:table;
 }
 .home_caption {
-    color : white;
+    /* color : white; */
 }
 
 .navbar {   
@@ -20,12 +24,12 @@ html, body {
 }
 
 .party-label{
-    color : white;
+    /* color : white; */
 }
 
 #user-content {
     /* height : 90%; */
-    background : #232f3e;
+    /* background : #232f3e; */
     display: table-row;
     border-style: solid;    
     border-color: black;
@@ -66,7 +70,7 @@ html, body {
     
 
 #create-party-form{
-    color : white;
+    /* color : white; */
 }
 .popover-content,
 .popover-title{
@@ -343,6 +347,15 @@ a.nav-a, a.nav-a:link, a.nav-a:visited {
     font-size: 12px;
     font-family: arial,sans-serif;
 }
+
+
+#shuttle-bus-content{
+    color : white;
+}
+.centered {
+   text-align: center;
+}
+
 
 #footer {
     height : 5%;

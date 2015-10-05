@@ -134,7 +134,7 @@ module.exports = function(app) {
 			} else{
 	// save the user's email in a session instead of sending to the client //
 				req.session.reset = { email:email, passHash:passH };
-				res.render('reset', { title : 'Reset Password' });
+				res.rendere('reset', { title : 'Reset Password' });
 			}
 		});
 	});
@@ -186,13 +186,57 @@ module.exports = function(app) {
 	        // if user is not logged-in redirect back to login page //
 			res.redirect('/');
 		}else{
-			res.render('user-parties', {
-				title : 'My Page',
-				countries : CT,
-				udata : req.session.user
-			});
-		}        
+            PM.getAllRecords(function(e,records){
+                if (!e){
+                    console.log(records);
+                    res.render("user-parties",{
+                        records : records,
+                        name1 : "hello",
+                        title : "party list",
+                        udata : req.session.user
+                    });
+                } else {
+                    res.status(400).send("no records");
+                }
+		    });
+        }
     });
+
+    app.get('/parties/:id', function(req, res){
+        if (req.session.user == null){
+	        // if user is not logged-in redirect back to login page //
+			res.redirect('/');
+		}else{
+            PM.partyItem(req.params.id, function(e,record){
+                console.log(record);
+                if (!e){
+                    res.render("party-show", {
+                        record : record,
+                        udata : req.session.user
+                    });
+                } else {
+                    res.status(400).send("no records");
+                }
+		    });
+        }
+    });
+
+	app.post('/parties/:id', function(req, res){
+        console.log('runnning in post id');
+		PM.updateParty(req.params.id, {
+            party_theme : req.body['party_theme'],
+            party_time : req.body['party_time'],
+            // menu : req.body['party_menu'],
+            party_total_fee : req.body['party_total_fee']            
+        },function(e, o){
+			if (e){
+				res.status(400).send('error-updating-party');
+			}	else{
+                res.json({"status":"success"});
+                // res.status(200).send('ok');
+			}
+		});
+	});
 
     app.get('/party/create', function(req, res){
         if (req.session.user == null){
@@ -200,6 +244,7 @@ module.exports = function(app) {
 			res.redirect('/');
 		}else{
             console.log("present party create form");
+            
 			res.render('user-party-create', {
 				title : 'My Page',
 				countries : CT,
@@ -221,6 +266,7 @@ module.exports = function(app) {
 		        party_time 	     : req.body['party_time'],
                 party_creat_time : req.body['party_create_time'],
                 party_menu       : req.body['party_menu'],
+                party_total_fee  : 0,
                 manager          : req.session.user['user'],
                 member           : [req.session.user['user']]
 		    }, function(e){
@@ -266,6 +312,31 @@ module.exports = function(app) {
 			}
 		});
     });
+
+    app.get('/shuttle', function(req, res){
+        console.log("parse successful");
+        // res.status(200).send('ok');
+		// res.render('party-home', { title: 'Signup', countries : CT, udata : req.session.user });
+        // res.render('login', { title: 'Hello - Please Login To Your Account' });
+        // res.status(200).send({ title: 'Signup', udata : req.session.user });
+        res.render('shuttle-bus', {
+			title : 'shuttle bus',
+			udata : req.session.user
+		});
+    });
+
+    app.get('/shuttle/wjk', function(req, res){
+        console.log("parse successful");
+        // res.status(200).send('ok');
+		// res.render('party-home', { title: 'Signup', countries : CT, udata : req.session.user });
+        // res.render('login', { title: 'Hello - Please Login To Your Account' });
+        // res.status(200).send({ title: 'Signup', udata : req.session.user });
+        res.render('shuttle-bus-wjk', {
+			title : 'shuttle bus',
+			udata : req.session.user
+		});
+    });
+    
     
 	app.get('*', function(req, res) {
         var href = req.protocol + "://"+ req.get('Host') + req.url;
@@ -277,5 +348,12 @@ module.exports = function(app) {
 
 };
 
+
+
+// var a = [{ _id: 560f6b9c6edde27baf840bc5,party_theme: '毕业了',party_time: '2015/10/09 16:00',party_creat_time: '2015/010/3 13:46',party_menu: { huoguo: [Object]},manager: 'fifth',member: ['fifth']}];
+
+
+
+// var a = [{party_theme: '毕业了'}];
 
 

@@ -25,9 +25,43 @@ exports.addNewParty = function(newData, callback)
 
 exports.getAllRecords = function(callback)
 {
-	parties.find().toArray(
-		function(e, res) {
+	parties.find({},{sort: {_id:-1}}).toArray(
+		function(e, records) {
 		    if (e) callback(e);
-		    else callback(null, res);
+		    else callback(null, records);
 	});
+};
+
+var getObjectId = function(id)
+{
+	return new require('mongodb').ObjectID(id);
+};
+
+exports.partyItem = function(id, callback)
+{
+    parties.findOne({_id : getObjectId(id)}, function(e, o) {
+        if (e) callback(e);
+		else callback(null, o);
+	    });
+};
+
+exports.updateParty = function(id, modifiedData, callback)
+{
+    console.log("in updateParty function");
+    parties.findOne({_id : getObjectId(id)}, function(e, o) {
+        if (e){
+            console.log("error in party update");
+            callback(e);
+        } else {
+            console.log("running in party update");
+            console.log('modifiedData', modifiedData);
+            console.log('origin Data', o);
+            o.party_theme = modifiedData.party_theme;
+            o.party_time = modifiedData.party_time;
+            // o.menu = modifiedData.party_menu;
+            o.party_total_fee = modifiedData.party_total_fee;
+            console.log('origin Data 2', o);
+            parties.save(o, {safe: true}, callback);
+        }
+	    });
 };
