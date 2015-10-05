@@ -1,0 +1,21 @@
+extends user-layout
+
+block script
+    script(src="/js/views/shuttle-bus.js")    
+    script(src="/js/views/shuttle-bus-dashboard.js")    
+block content
+    .home-content
+        block navi
+            div.navbar
+                include user-navi
+        block container
+            #user-content
+                #temp-div
+                    #shuttle-bus-dashboard
+                        include shuttle-bus-dashboard
+                    #party-scratch        
+                        block party-scratch
+                    include shuttle-bus-content
+block footer
+    #footer
+        include user-footer
