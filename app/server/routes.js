@@ -227,7 +227,7 @@ module.exports = function(app) {
             party_theme : req.body['party_theme'],
             party_time : req.body['party_time'],
             // menu : req.body['party_menu'],
-            party_total_fee : req.body['party_total_fee']            
+            party_total_fee : req.body['party_total_fee']                        
         },function(e, o){
 			if (e){
 				res.status(400).send('error-updating-party');

@@ -48,7 +48,8 @@ exports.partyItem = function(id, callback)
 exports.updateParty = function(id, modifiedData, callback)
 {
     console.log("in updateParty function");
-    parties.findOne({_id : getObjectId(id)}, function(e, o) {
+    // parties.findOne({_id : getObjectId(id)}, function(e, o) {
+    parties.find({_id : new mongo.ObjectID(id)}, function(e, o) {        
         if (e){
             console.log("error in party update");
             callback(e);
