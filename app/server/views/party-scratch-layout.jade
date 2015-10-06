@@ -17,8 +17,12 @@ block content
                 #temp-div
                     #party-dashboard
                         include party-dashboard
+                        // include buddy
                     #party-scratch        
-                        block party-scratch
+                        #party-outer
+                            block party-scratch
+                    #buddy
+                        include buddy
 block footer
     #footer
         include user-footer

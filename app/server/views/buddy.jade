@@ -1,0 +1,18 @@
+#webpager
+    .wp_top_tabs
+        div(class = "wp_top_tab notify png " style="display : table;") notify
+            span.title 通知
+        div(class = "wp_top_tab friends png left" style="display : table;") friend
+            span.title 好友
+        div(class = "wp_top_tab recent png on" style="display : table;") recent
+            span.title 会话
+    // div(id="buddy" style="height: 590px; display: block;")
+    div(id="buddy" style="height: 590px;")
+        div(class="wp_collector_box" style="height: 500px;")
+            // .wp_collector.assistant
+            #friends.wp_collector.friends
+                div(class="collector_title friends" data-type="friends")
+                    span.text 全部好友
+                    span.num 20
+            #group.wp_collector.groups
+            

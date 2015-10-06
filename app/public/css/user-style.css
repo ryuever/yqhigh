@@ -43,21 +43,164 @@ html, body {
 
 #party-dashboard{
     width : 150px;
-    height : 100%;
-    border : 1px solid;
+    /* height : 100%; */
+    border-top: 1px solid;
+    /* border : 1px solid; */
     /* float : left; */
     /* dispaly: inline-block; */
     display : table-cell;
 }
+
+#party-dashboard p {
+    position: relative;
+}
+
 #party-scratch {
     height : 100%;
-    width : auto;
     border : 1px solid;
     display : table-cell;
     /* display : inline-block; */
     /* overflow : auto; */      
 }
 
+/* #party-outer { */
+/*     width : 90%; */
+/* } */
+
+#parties-table {
+    margin-left: auto ;
+    margin-right: auto ;
+    align : center;
+    width : 700px;
+}
+
+#buddy {
+    width : 240px;
+    opacity : 1;
+
+    /* float : right; */
+    display : table-cell;
+}
+
+/***************** buddy beginning *****************/
+/* #webpager .wp_top_tabs { */
+/*     height: 50px; */
+/*     /\* box-shadow: -3px -3px 6px 0 #1d69a6; *\/ */
+/*     background-color: #227dc5; */
+/*     overflow: hidden; */
+/* } */
+
+/* #webpager .wp_top_tabs .wp_top_tab { */
+/*     height: 50px; */
+/*     background-color: #227dc5; */
+/*     float: left; */
+/*     position: relative; */
+/*     cursor: pointer; */
+/* } */
+
+/* #webpager .wp_top_tabs .wp_top_tab .title { */
+/*     display: none; */
+/* } */
+
+/* #webpager .wp_top_tabs .recent.on { */
+/*     width: 125px; */
+/*     background-position: 17px -303px; */
+/* } */
+
+/* #webpager .wp_top_tabs .wp_top_tab.on .title { */
+/*     display: inline; */
+/*     color: #fff; */
+/*     font-size: 15px; */
+/*     line-height: 50px; */
+/*     padding-left: 50px; */
+/* } */
+
+/* #webpager #buddy .collector_title { */
+/*     height: 34px; */
+/*     width: 238px; */
+/*     line-height: 34px; */
+
+/*     background-color: #f6f6f6; */
+/* } */
+
+/* #webpager .wp_top_tabs .friends.left { */
+/*     width: 55px; */
+/*     background-position: 17px -138px; */
+/* } */
+
+/* #webpager .wp_top_tabs .notify { */
+/*     width: 55px; */
+/*     background-position: 17px -38px; */
+/* } */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#webpager .wp_top_tabs {
+    height: 50px;
+    /* box-shadow: -3px -3px 6px 0 #1d69a6; */
+    background-color: #227dc5;
+    width : 238px;
+    overflow: hidden;
+}
+
+#webpager .wp_top_tabs .wp_top_tab {
+    height: 50px;
+    background-color: #227dc5;
+    float: left;
+    position: relative;
+    cursor: pointer;
+}
+
+#webpager .wp_top_tabs .wp_top_tab .title {
+    display: none;
+}
+
+#webpager .wp_top_tabs .recent.on {
+    width: 125px;
+    background-position: 17px -303px;
+}
+
+#webpager .wp_top_tabs .wp_top_tab.on .title {
+    display: inline;
+    color: #fff;
+    font-size: 15px;
+    line-height: 50px;
+    padding-left: 50px;
+}
+
+#webpager #buddy .collector_title {
+    height: 34px;
+    width: 238px;
+    line-height: 34px;
+
+    background-color: #f6f6f6;
+}
+
+#webpager .wp_top_tabs .friends.left {
+    width: 50px;
+    background-position: 17px -138px;
+}
+
+#webpager .wp_top_tabs .notify {
+    width: 50px;
+    /* background-position: 17px -38px; */
+}
+
+
+/***************** buddy end *****************/
 .modal-body hr{
     margin-top : 2px;
 }
@@ -67,7 +210,6 @@ html, body {
 .modal-body td input{
     width : 50px;
 }
-    
 
 #create-party-form{
     /* color : white; */
@@ -88,7 +230,6 @@ html, body {
 .popover{
     width : 300px;    
 }
-
 
 .carousel-inner > .item > img,
 .carousel-inner > .item > a > img {
