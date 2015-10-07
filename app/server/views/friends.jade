@@ -1,0 +1,23 @@
+extends user-layout
+- user = typeof(udata) != 'undefined' ? udata : { }
+
+block script
+    script(src='/vendor/jquery.form.js')
+    script(src='/js/form-validators/accountValidator.js')    
+    script(src='/js/views/party-dashboard.js')
+
+
+block content
+    .home-content
+        block navi
+            div.navbar
+                include user-navi
+        block container
+            #friends
+                ul
+                    each item in records
+                        li= item.name
+                        li= item.country
+block footer
+    #footer
+        include user-footer

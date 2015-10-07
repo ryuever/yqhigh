@@ -427,21 +427,27 @@ a:visited {
     white-space: nowrap;
 }
 
+/* .hd-search .hd-search-input { */
+/*     height: 24px; */
+/*     width: 470px; */
+/*     padding: 3px 20px 3px 10px; */
+/*     font-size: 14px; */
+/*     line-height: 24px; */
+/*     background: #1c68a4; */
+/*     border: 0; */
+/*     color: #fff; */
+/*     border-radius: 2px; */
+/* } */
+
 .hd-search .hd-search-input {
-    height: 24px;
     width: 470px;
-    padding: 3px 20px 3px 10px;
-    font-size: 14px;
-    line-height: 24px;
-    background: #1c68a4;
-    border: 0;
-    color: #fff;
-    border-radius: 2px;
 }
+
 
 .hd-search {
     margin-top : 20px;
     margin-left : 100px;
+    width : 500px;
 }
 
 #nav-xshop-container {

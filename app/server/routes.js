@@ -331,6 +331,20 @@ module.exports = function(app) {
 		});
     });
 
+    app.post('/friend/:name', function(req, res){
+        AM.findFriends(req.params.name , function(err, records){
+            if(err){
+                res.status(400).send(e);
+            }else{
+                console.log(records);
+                res.render("friends", {
+                    records : records,
+                    udata : req.session.user
+                });
+            }
+        });
+    });
+    
     app.get('/shuttle', function(req, res){
         console.log("parse successful");
         // res.status(200).send('ok');
@@ -375,3 +389,10 @@ module.exports = function(app) {
 // var a = [{party_theme: '毕业了'}];
 
 
+
+// var n={queryInfor:function(e,n,r)
+//        {t.ajax({url:"http://friend.renren.com/friends/api/queryinformation",
+//                 type:"post",
+//                 dataType:"text",
+//                 data:"l=5&p="+e,
+//                 success:function(e){n.call(r,t.parseJSON(e))}})}};
