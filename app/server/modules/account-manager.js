@@ -30,7 +30,18 @@ exports.autoLogin = function(user, pass, callback)
 			callback(null);
 		}
 	});
-}
+};
+
+exports.getProfile = function(user, callback)
+{
+    accounts.findOne({user:user}, function(e, o){
+        if(o){
+            callback(null, o);
+        }else{
+            callback(e, null);
+        }
+    });    
+};
 
 exports.manualLogin = function(user, pass, callback)
 {

@@ -10,6 +10,9 @@ div#nav-main.nav-sprite
                     a(href=party_home, class='goto-party') party
                 li 
                     a(href='/shuttle') shuttle
+                li
+                    a(href='/profile/#{udata.name}') profile
+                    
                     
     div.nav-right
         div#nav-tools
@@ -22,7 +25,10 @@ div#nav-main.nav-sprite
             a(href='/',class="nav-a nav-a-2" data-nav-tabindex="26" id="nav-link-prime" tabindex="1")
                 span.nav-line-1 log out
                 span.nav-line-2 
-    
+    div.nav-fill
+        .hd-search
+            input(type="text" id="hd-search" class="hd-search-input" placeholder="搜索好友")
+            a(href="javascript:;" class="hd-search-btn")
     //- div.nav-fill
     //-     div#nav-xshop-container
     //-         div#nav-supra.nav-supra-points

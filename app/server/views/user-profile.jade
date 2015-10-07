@@ -1,0 +1,17 @@
+extends user-layout
+- user = typeof(udata) != 'undefined' ? udata : { }
+
+block content
+    .home-content
+        block navi
+            div.navbar
+                include user-navi
+        block container
+            div(id="profile" style="text-align:center")
+                table(class = "table" style="width:400px; margin:auto")
+                    tr
+                        th 名字
+                        th #{name}
+                    tr  
+                        th 国家
+                        th #{country}

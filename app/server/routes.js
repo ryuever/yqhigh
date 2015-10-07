@@ -39,7 +39,25 @@ module.exports = function(app) {
 			}
 		});
 	});
-	
+
+    app.get('/profile/:id', function(req, res){
+        if(req.session.user == null){
+            res.redirect('/');
+        }else {
+            AM.getProfile(req.params.id, function(err, record){
+                if(err){
+					res.status(400).send('account not exists');
+                }else{
+                    res.render("user-profile", {
+                        name : record.name,
+                        country : record.country,
+                        udata : req.session.user
+                    });
+                }
+            });
+        }
+    });
+    
 	app.get('/home', function(req, res) {
 		if (req.session.user == null){
 	// if user is not logged-in redirect back to login page //
