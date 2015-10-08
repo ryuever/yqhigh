@@ -3,6 +3,9 @@ extends party-scratch-layout
 block specified-script
 
 block party-scratch
+    - var page = parseInt(currentPage)
+    - var pages = parseInt(totalPages)
+    - console.log("page, pages in user-parties.jade file", page, pages)
     - var party_list = records
     - var contains = function(arr, item){
     -     for (var i =0; i < arr.length; i++){
@@ -32,9 +35,49 @@ block party-scratch
                     td
                         a(href="/parties/#{item._id}")= item.party_theme
                     td= item.party_time
-                    td= Object.keys(item.party_menu)
+                    // td= Object.keys(item.party_menu)
+                    td  menu
                     td= item.member
                     td= item.manager 
                     td
-                        input(type="checkbox" value= "" checked=contains(item.member, udata.name) ? "checked":"" )
-        
+                        input(type="checkbox" value= "" checked=contains(item.member, udata.name) ? "checked":"" )                        
+
+    ul.pagination
+        - if(page > 1){
+            li
+                a(href="?page=#{page-1}") &laquo;    
+        - }else{
+            li
+                a(href="?page=1") &laquo;    
+        - }
+        - if(pages < 5){
+            - for (var i = pages-1; i>=0; i--){
+                li
+                    // a(href="?page=#{parseInt(pages)-i}")= #{parseInt(pages)-i}
+                    a(href="?page=#{pages-i}")= pages-i
+            - }
+        - }else {
+            - if(page <= 3){
+                - for(var i = 1; i<= 5; i++){
+                    li 
+                        a(href="?page=#{i}") #{i}
+                - }                            
+            - }else if(page + 2 > pages){
+                - for(var i = 4; i>=0; i--){
+                    li 
+                        a(href="?page=#{pages-i}") #{pages-i}
+                - }
+            - } else {
+                - for(var i = -2; i< 3; i++){
+                    li 
+                        a(href="?page=#{page+i}") #{page+i}
+                - }
+            - }
+        - }        
+        - if (page >= pages){
+            li
+                a(href="?page=#{pages}") &raquo;    
+        - }else{
+            li
+                a(href="?page=#{page+1}") &raquo;    
+        - }

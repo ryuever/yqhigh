@@ -22,15 +22,28 @@ exports.addNewParty = function(newData, callback)
     parties.insert(newData, {safe: true}, callback);
 };
 
-
-exports.getAllRecords = function(callback)
-{
-	parties.find({},{sort: {_id:-1}}).toArray(
-		function(e, records) {
-		    if (e) callback(e);
-		    else callback(null, records);
-	});
+exports.partiesPagination = function(page,perPage,callback) {
+    parties.count({}, function (err, count) {
+        // parties.find({}).sort({'_id':-1}).skip((page-1)*perPage).limit(perPage).toArray(function(err,records){
+        parties.find({}, {sort : {'_id':-1}}).skip((page-1)*perPage).limit(perPage).toArray(function(err,records){            
+            if (err) callback(err);
+		    else {
+                var pages = Math.ceil(count / perPage);
+                callback(null, pages, records);
+            }
+        });
+    });
 };
+
+
+// exports.getAllRecords = function(callback)
+// {
+// 	parties.find({},{sort: {_id:-1}}).toArray(
+// 		function(e, records) {
+// 		    if (e) callback(e);
+// 		    else callback(null, records);
+// 	});
+// };
 
 var getObjectId = function(id)
 {
@@ -66,3 +79,5 @@ exports.updateParty = function(id, modifiedData, callback)
         }
 	    });
 };
+
+

@@ -199,19 +199,42 @@ module.exports = function(app) {
 	});
 
     // show parties list
+    // app.get('/parties', function(req, res){
+    //     if (req.session.user == null){
+	//         // if user is not logged-in redirect back to login page //
+	// 		res.redirect('/');
+	// 	}else{
+    //         PM.getAllRecords(function(e,records){
+    //             if (!e){
+    //                 console.log(records);
+    //                 res.render("user-parties",{
+    //                     records : records,
+    //                     title : "party list",
+    //                     udata : req.session.user
+    //                 });
+    //             } else {
+    //                 res.status(400).send("no records");
+    //             }
+	// 	    });
+    //     }
+    // });
     app.get('/parties', function(req, res){
         if (req.session.user == null){
 	        // if user is not logged-in redirect back to login page //
 			res.redirect('/');
 		}else{
-            PM.getAllRecords(function(e,records){
-                if (!e){
-                    console.log(records);
+            var perPage = 10, 
+                page = req.query.page > 0 ? req.query.page : 1;
+
+            console.log("page", page);
+            PM.partiesPagination(page, perPage, function(err, pages, records){       
+                if (!err){
+                    console.log("parties list", records, "pages", pages, "page", page);
                     res.render("user-parties",{
                         records : records,
-                        name1 : "hello",
-                        title : "party list",
-                        udata : req.session.user
+                        totalPages  : pages,
+                        currentPage   : page,
+                        udata  : req.session.user
                     });
                 } else {
                     res.status(400).send("no records");
