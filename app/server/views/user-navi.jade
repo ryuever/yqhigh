@@ -1,6 +1,6 @@
 - var party_home = udata.name + '/parties'
 - var party_home = '/parties'
-div#nav-main.nav-sprite
+div#nav-main
     div.nav-left        
         div.dropdown
             button(class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown") category 
@@ -13,17 +13,26 @@ div#nav-main.nav-sprite
                 li
                     a(href='/profile/#{udata.name}') profile                    
                     
+    //- div.nav-right
+    //-     div#nav-tools
+    //-         a(href='/',class="nav-a nav-a-2" data-nav-tabindex="26" id="nav-link-prime" tabindex="1")
+    //-             span#nav-tools-home Home
+    //-         a(href='/',class='nav-a nav-a-2' data-nav-ref="nav_ya_signin" data-nav-role="signin" data-nav-tabindex="25" id="nav-link-yourAccount" tabindex="1")
+    //-             span.nav-line-1 hello
+    //-             span.nav-line-2 #{udata.name}
+    //-                 span(class='nav-icon nav-arrow' style="visibility: visible;")
+    //-         a(href='/',class="nav-a nav-a-2" data-nav-tabindex="26" id="nav-link-prime" tabindex="1")
+    //-             span.nav-line-1 log out
+    //-             span.nav-line-2 
     div.nav-right
-        div#nav-tools
-            a(href='/',class="nav-a nav-a-2" data-nav-tabindex="26" id="nav-link-prime" tabindex="1")
-                span.nav-line-1 Home
-            a(href='/',class='nav-a nav-a-2' data-nav-ref="nav_ya_signin" data-nav-role="signin" data-nav-tabindex="25" id="nav-link-yourAccount" tabindex="1")
-                span.nav-line-1 hello
-                span.nav-line-2 #{udata.name}
-                    span(class='nav-icon nav-arrow' style="visibility: visible;")
-            a(href='/',class="nav-a nav-a-2" data-nav-tabindex="26" id="nav-link-prime" tabindex="1")
-                span.nav-line-1 log out
-                span.nav-line-2 
+        #nav-tools
+            a(href='/home',id="nav-tools-home-link")
+                span#nav-tools-home Home
+            a(href='/profile/#{udata.name}',id="nav-tools-user-link")
+                span#nav-tools-user #{udata.name}
+            a(href='/',id="nav-tools-logout-link")
+                span#nav-tools-logout Log Out
+                
     div.nav-fill
         form(method="post" id="search-friends")
             .hd-search.input-group

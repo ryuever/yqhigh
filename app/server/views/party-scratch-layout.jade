@@ -1,3 +1,32 @@
+//- extends user-layout
+//- - user = typeof(udata) != 'undefined' ? udata : { }
+
+//- block script
+//-     script(src='/vendor/jquery.form.js')
+//-     script(src='/js/form-validators/accountValidator.js')    
+//-     script(src='/js/views/party-dashboard.js')
+//-     block specified-script
+
+//- block content
+//-     .home-content
+//-         block navi
+//-             .navbar
+//-                 include user-navi
+//-         block container
+//-             #user-content
+//-                 #temp-div
+//-                     #party-dashboard
+//-                         include party-dashboard
+//-                     #party-scratch        
+//-                         #party-outer
+//-                             block party-scratch
+//-                             block pagination
+//-                     #buddy
+//-                         include buddy
+//- block footer
+//-     #footer
+//-         include user-footer
+       
 extends user-layout
 - user = typeof(udata) != 'undefined' ? udata : { }
 
@@ -8,21 +37,19 @@ block script
     block specified-script
 
 block content
-    .home-content
-        block navi
-            div.navbar
-                include user-navi
+    block navi
+        .header
+            include user-navi
+    #main
         block container
-            #user-content
-                #temp-div
-                    #party-dashboard
-                        include party-dashboard
-                        // include buddy
-                    #party-scratch        
-                        #party-outer
-                            block party-scratch
-                    #buddy
-                        include buddy
+            .flex-nav
+                include party-dashboard
+            .flex-content
+                #flex-partyList
+                    block party-scratch
+                    block pagination
+            .flex-buddy
+                include buddy              
 block footer
-    #footer
-        include user-footer
+    .footer
+        include user-footer        

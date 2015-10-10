@@ -2,7 +2,6 @@ $(document).ready(function(){
     $('#weekday-kanazawa-jaist').click(function(){
         window.location.href='/shuttle';        
     });
-
     $('#weekday-jaist-kanazawa').click(function(){
         window.location.href='/shuttle/wjk';
     });
@@ -14,5 +13,4 @@ $(document).ready(function(){
     $('#holiday-jaist-kanazawa').click(function(){
         window.location.href='/shuttle/hjk'; 
     });    
-
 });
