@@ -36,6 +36,7 @@ exports.getProfile = function(user, callback)
 {
     accounts.findOne({user:user}, function(e, o){
         if(o){
+            console.log("profile data", o);
             callback(null, o);
         }else{
             callback(e, null);
@@ -217,5 +218,46 @@ exports.findFriends = function(username, callback){
 		    if (e) callback(e);
 		    else callback(null, res);
 	    });
+};
+
+exports.findBuddy = function(username, callback){
+    accounts.findOne({user:username}, function(e, o){
+		if (e){
+			callback(e, null);
+		}else{
+            callback(null, o);
+        }
+    });
+};
+
+exports.getAccount = function(username, callback){
+   accounts.findOne({user:username}, function(e, o){
+		if (e){
+			callback(e, null);
+		}else{
+            callback(null, o);
+        }
+    });
+};
+
+exports.updateFriends = function(friend_name, friend_indicator, username,callback){
+    console.log("friend_name, friend_indicator, username in account-manager.js", friend_name, friend_indicator, username);
+    accounts.findOne({user:username}, function(e, o){
+		if (e){
+			callback(e, null);
+		}else{
+            if (friend_indicator == "true"){
+                o.friends.push(friend_name);
+            }else{
+                console.log("delete a friend");
+                for(var i = o.friends.length - 1; i>=0 ; i--){
+                    if (o.friends[i] == friend_name)
+
+                        o.friends.splice(i,1);                    
+                }
+            }
+            accounts.save(o, {safe: true}, callback(null));
+		}        
+    });
 };
 

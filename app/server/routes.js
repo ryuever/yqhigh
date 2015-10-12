@@ -40,18 +40,47 @@ module.exports = function(app) {
 		});
 	});
 
+    // app.get('/profile/:id', function(req, res){
+    //     // console.log(req.session);
+    //     // console.log(req.session.friends);
+    //     if(req.session.user == null){
+    //         res.redirect('/');
+    //     }else {
+    //         AM.getProfile(req.params.id, function(err, record){
+    //             if(err){
+	// 				res.status(400).send('account not exists');
+    //             }else{
+    //                 console.log("profile in routes.js", record);
+    //                 console.log("profile in routes.js session.user", req.session.user);
+    //                 res.render("user-profile", {
+    //                     name : record.name,
+    //                     country : record.country,
+    //                     udata : req.session.user,
+    //                     ref_user : record.name                        
+    //                 });
+    //             }
+    //         });
+    //     }
+    // });
+
     app.get('/profile/:id', function(req, res){
         if(req.session.user == null){
             res.redirect('/');
         }else {
-            AM.getProfile(req.params.id, function(err, record){
+            AM.getProfile(req.params.id, function(err, ref_user_record){
                 if(err){
 					res.status(400).send('account not exists');
                 }else{
-                    res.render("user-profile", {
-                        name : record.name,
-                        country : record.country,
-                        udata : req.session.user
+                    AM.getAccount(req.session.user.name, function(err, record){
+                        console.log("profile in routes.js", record.friends);
+                        console.log("profile in routes.js session.user", ref_user_record);
+                        res.render("user-profile", {
+                            name : ref_user_record.name,
+                            country : ref_user_record.country,
+                            udata : req.session.user,
+                            user_friends : record.friends,
+                            ref_user : ref_user_record.name       
+                        });                        
                     });
                 }
             });
@@ -108,10 +137,12 @@ module.exports = function(app) {
 	app.post('/signup', function(req, res){
 		AM.addNewAccount({
 			name 	: req.body['name'],
-			email 	: req.body['email'],
+			email	: req.body['email'],
 			user 	: req.body['user'],
 			pass	: req.body['pass'],
-			country : req.body['country']
+			country : req.body['country'],
+            friends : [],
+            group   : []
 		}, function(e){
 			if (e){
 				res.status(400).send(e);
@@ -359,7 +390,7 @@ module.exports = function(app) {
             if(err){
                 res.status(400).send(e);
             }else{
-                console.log(records);
+                // console.log(records);
                 res.render("friends", {
                     records : records,
                     udata : req.session.user
@@ -367,7 +398,39 @@ module.exports = function(app) {
             }
         });
     });
+
+    app.get('/buddy/:name', function(req, res){
+        console.log("find buddies");
+        AM.findBuddy(req.params.name , function(err, record){
+            if(err){
+                res.status(400).send(e);
+            }else{
+                // console.log(records);
+                console.log("findone :", record);
+                res.json({
+                    status : "success",
+                    record : record,
+                    udata : req.session.user
+                });
+            }
+        });
+    });
     
+    app.put('/friend/update', function(req, res){
+        console.log("friends update");
+        AM.updateFriends(req.body.friend_name,
+                         req.body.friend_indicator,
+                         req.session.user.name,
+                         function(err){
+            if(err){
+                res.json({"status":"error"});
+            }else{
+                res.json({"status":"success"});
+            }
+        });       
+    });
+
+
     app.get('/shuttle', function(req, res){
         console.log("parse successful");
         // res.status(200).send('ok');

@@ -10,11 +10,12 @@ block party-scratch
         - var party_list = records
         - var contains = function(arr, item){
         -     for (var i =0; i < arr.length; i++){
-        -         if (item === arr[i])
+        -         if (item === arr[i]){
         -             return true;
+        -         }
         -     }
         -     return false;
-        - };
+        - };        
         //- form(role='form' class="form-horizontal" id="create-party-form" method='post' action='/party/create')
         //-     fieldset
         //-         .form-group
