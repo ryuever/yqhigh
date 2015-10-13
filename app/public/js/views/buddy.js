@@ -1,4 +1,20 @@
+window.user_friends = [];
+window.user_group = {};
+window.username = '';
+var socket = io();
+var notify_msg = {};
 $(document).ready(function(){
+    $(".wp_top_tabs .notify").click(function(){
+        for (var key in notify_msg){
+            register_popup(key, key);
+            $.each(notify_msg[key], function(index, value){
+                $("#"+key+"-msg").append($('<p>').text(value));
+            });            
+        }
+        $("#notification-count").hide();        
+        notify_msg = {};
+    });
+    
     $("#webpager .friends").click(function(){
         var params = {
             user_name : $('#nav-tools-user-link').text()
@@ -12,14 +28,15 @@ $(document).ready(function(){
             type:'get',
             timeout: 5000,
             success: function(data){
-                // alert("successful");
-                // console.log(data.record.friends);
-                // alert(data.record.friends);
                 var s=document.getElementById('buddy-collection');
                 var li_item;
                 var a_item;
                 var online_item;
                 var ul_item = document.createElement("ul");
+                window.username = data.record.name;
+                window.user_friends = data.record.friends;
+                window.user_group   = data.record.group;
+                console.log("use friends : ", window.user_friends );
                 for(var i = 0; i<data.record.friends.length; i++){
                     li_item = document.createElement("li");
                     li_item.setAttribute("class", "buddy-item");
@@ -27,19 +44,24 @@ $(document).ready(function(){
                     a_item.appendChild(document.createTextNode(data.record.friends[i]));
                     a_item.setAttribute('href', "javascript:register_popup('" + data.record.friends[i] + "', '" + data.record.friends[i] + "');");
                     online_item = document.createElement("div");
-                    online_item.setAttribute("class", "profile-status online");
+                    online_item.setAttribute("class", "profile-status offline");
+                    console.log("data.record.friends", data.record.friends[i]);
+                    online_item.setAttribute("id", data.record.friends[i] + "-item");
                     li_item.appendChild(a_item);
                     li_item.appendChild(online_item);
                     ul_item.appendChild(li_item);
                 }
                 s.appendChild(ul_item);
-                // alert(record.friends);
+
+                socket.emit('appendBuddyGroup', {friends : window.user_friends,
+                                                 group : window.user_group});                                                 
+
             },
             error: function(jqXHR, textStatus, errorThrown){
                 alert("get friends error");
             }            
         });
-    });
+    });    
 });
 
 Array.remove = function(array, from, to) {
@@ -120,9 +142,23 @@ function register_popup(id, name)
     element = element + '<div class="popup-head">';
     element = element + '<div class="popup-head-left">'+ name +'</div>';
     element = element + '<div class="popup-head-right"><a href="javascript:close_popup(\''+ id +'\');">&#10005;</a></div>';
-    element = element + '<div style="clear: both"></div></div><div class="popup-messages"></div><form><input class="message-input"></form></div>';
+    // element = element + '<div style="clear: both"></div></div><div class="popup-messages"></div><input class="message-input" ' + 'id="' + name +'-message"' +'></div>';
+    element = element + '<div style="clear: both"></div></div><div class="popup-messages" id="'+name+'-msg"></div><input class="message-input" ' + 'id="' + name +'-message"' +'></div>';
     
-    document.getElementsByTagName("body")[0].innerHTML = document.getElementsByTagName("body")[0].innerHTML + element;      
+    document.getElementsByTagName("body")[0].innerHTML = document.getElementsByTagName("body")[0].innerHTML + element;
+
+    // $("#" + name + '-message').focus();
+    
+    $('.message-input').keypress(function(e) {        
+		if(e.which == 13) {
+			$(this).blur();
+			// $('#datasend').focus().click();
+            $("#"+name+"-msg").append($('<p>').text($("#nav-tools-user").text() + " : " + $('#'+name+"-message").val()));
+            console.log("send message", $('#'+name+"-message").val());   
+            socket.emit("message", {msg:$('#'+name+"-message").val(),username:$("#nav-tools-user").text() , rival_name:name});
+            $('#'+name+"-message").val('');
+		}
+	});
     popups.unshift(id);    
     calculate_popups();    
 }
@@ -149,3 +185,72 @@ function calculate_popups()
 //recalculate when window is loaded and also when window is resized.
 window.addEventListener("resize", calculate_popups);
 window.addEventListener("load", calculate_popups);
+
+
+// on connection to server, ask for user's name with an anonymous callback
+socket.on('connect', function(){
+    console.log("send a connect request");
+    console.log("user_friends in buddy.js", window.user_friends);
+	// call the server-side function 'adduser' and send one parameter (value of prompt)
+	// socket.emit('adduser', prompt("What's your name?"));
+    socket.emit('adduser', {username: $('#nav-tools-user-link').text()});                                                       
+});
+
+// listener, whenever the server emits 'updatechat', this updates the chat body
+socket.on('updatechat', function (username, data) {
+    console.log("update chate");
+	$('#conversation').append('<b>'+username + ':</b> ' + data + '<br>');
+});
+
+socket.on('updateOnlineStatus', function(onlineStatus){
+    console.log("onlineStatus : ", onlineStatus);
+    for(var i = 0; i<window.user_friends.length; i++){
+        if(onlineStatus[window.user_friends[i]]){
+            $('#' + window.user_friends[i] + "-item").attr("class", "profile-status online");
+        }
+    }    
+});
+
+// listener, whenever the server emits 'updaterooms', this updates the room the client is in
+socket.on('updaterooms', function(rooms, current_room) {
+	$('#rooms').empty();
+	$.each(rooms, function(key, value) {
+		if(value == current_room){
+			$('#rooms').append('<div>' + value + '</div>');
+		}
+		else {
+			$('#rooms').append('<div><a href="#" onclick="switchRoom(\''+value+'\')">' + value + '</a></div>');
+		}
+	});
+});
+socket.on("reply message", function(msg){
+    // alert(msg.rival_name + " : " + msg.data);
+    if (document.getElementById(msg.rival_name)){
+        $('.popup-messages').append($('<p>').text(msg.username + " : " + msg.data));
+    }else{
+        // $("#notification-count").attr("class", "");
+        $("#notification-count").text("1");
+        $("#notification-count").show();
+    }
+
+    if(msg.username in notify_msg){
+        notify_msg[msg.username].push(msg.data);
+    }else{
+        notify_msg[msg.username] = [];
+        notify_msg[msg.username].push(msg.data);        
+    }
+});
+
+function switchRoom(room){
+	socket.emit('switchRoom', room);
+}
+
+
+
+
+
+
+
+
+
+

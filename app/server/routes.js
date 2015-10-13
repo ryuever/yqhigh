@@ -40,29 +40,6 @@ module.exports = function(app) {
 		});
 	});
 
-    // app.get('/profile/:id', function(req, res){
-    //     // console.log(req.session);
-    //     // console.log(req.session.friends);
-    //     if(req.session.user == null){
-    //         res.redirect('/');
-    //     }else {
-    //         AM.getProfile(req.params.id, function(err, record){
-    //             if(err){
-	// 				res.status(400).send('account not exists');
-    //             }else{
-    //                 console.log("profile in routes.js", record);
-    //                 console.log("profile in routes.js session.user", req.session.user);
-    //                 res.render("user-profile", {
-    //                     name : record.name,
-    //                     country : record.country,
-    //                     udata : req.session.user,
-    //                     ref_user : record.name                        
-    //                 });
-    //             }
-    //         });
-    //     }
-    // });
-
     app.get('/profile/:id', function(req, res){
         if(req.session.user == null){
             res.redirect('/');
@@ -257,10 +234,10 @@ module.exports = function(app) {
             var perPage = 10, 
                 page = req.query.page > 0 ? req.query.page : 1;
 
-            console.log("page", page);
+            // console.log("page", page);
             PM.partiesPagination(page, perPage, function(err, pages, records){       
                 if (!err){
-                    console.log("parties list", records, "pages", pages, "page", page);
+                    // console.log("parties list", records, "pages", pages, "page", page);
                     res.render("user-parties",{
                         records : records,
                         totalPages  : pages,
@@ -400,13 +377,13 @@ module.exports = function(app) {
     });
 
     app.get('/buddy/:name', function(req, res){
-        console.log("find buddies");
+        // console.log("find buddies");
         AM.findBuddy(req.params.name , function(err, record){
             if(err){
                 res.status(400).send(e);
             }else{
                 // console.log(records);
-                console.log("findone :", record);
+                // console.log("findone :", record);
                 res.json({
                     status : "success",
                     record : record,
@@ -429,7 +406,6 @@ module.exports = function(app) {
             }
         });       
     });
-
 
     app.get('/shuttle', function(req, res){
         console.log("parse successful");
@@ -465,20 +441,3 @@ module.exports = function(app) {
         res.render('404', { title: 'Page Not Found'}); });
 
 };
-
-
-
-// var a = [{ _id: 560f6b9c6edde27baf840bc5,party_theme: '毕业了',party_time: '2015/10/09 16:00',party_creat_time: '2015/010/3 13:46',party_menu: { huoguo: [Object]},manager: 'fifth',member: ['fifth']}];
-
-
-
-// var a = [{party_theme: '毕业了'}];
-
-
-
-// var n={queryInfor:function(e,n,r)
-//        {t.ajax({url:"http://friend.renren.com/friends/api/queryinformation",
-//                 type:"post",
-//                 dataType:"text",
-//                 data:"l=5&p="+e,
-//                 success:function(e){n.call(r,t.parseJSON(e))}})}};

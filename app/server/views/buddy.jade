@@ -2,16 +2,18 @@
     .wp_top_tabs
         div(class = "wp_top_tab notify png ") 通知
             span.title 通知
+            span#notification-count 
         div(class = "wp_top_tab friends png left" ) 好友
             span.title 好友
         div(class = "wp_top_tab recent png on" ) 
             span.title 会话            
-    div(id="buddy-collection")
-    div(id="buddy" style="height: 590px;")
-        div(class="wp_collector_box" style="height: 500px;")
-            #friends.wp_collector.friends
-                div(class="collector_title friends" data-type="friends")
-                    span.text 全部好友
-                    span.num 20
-            #group.wp_collector.groups
+    div#chat-container
+        div(id="buddy-collection")
+        div(id="buddy" style="height: 590px;")
+            div(class="wp_collector_box" style="height: 500px;")
+                #friends.wp_collector.friends
+                    div(class="collector_title friends" data-type="friends")
+                        span.text 全部好友
+                        span.num 20
+                #group.wp_collector.groups
             

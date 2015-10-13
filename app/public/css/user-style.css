@@ -288,6 +288,7 @@ body {
 
 #webpager .wp_top_tabs .notify {
     width: 55px;
+    padding-top : 20px;
     background-position: 17px -38px;
 }
 
@@ -295,23 +296,18 @@ body {
     height : 40px;
 }
 
-
-/********************** send message **********************/
-@media only screen and (max-width : 540px) 
-{
-    .chat-sidebar
-    {
+/********************** chat **********************/
+@media only screen and (max-width : 540px) {
+    .chat-sidebar {
         display: none !important;
     }
     
-    .chat-popup
-    {
+    .chat-popup {
         display: none !important;
     }
 }
 
-.chat-sidebar
-{
+.chat-sidebar {
     width: 200px;
     position: fixed;
     height: 100%;
@@ -322,41 +318,35 @@ body {
     border: 1px solid rgba(29, 49, 91, .3);
 }
 
-.sidebar-name 
-{
+.sidebar-name {
     padding-left: 10px;
     padding-right: 10px;
     margin-bottom: 4px;
     font-size: 12px;
 }
 
-.sidebar-name span
-{
+.sidebar-name span {
     padding-left: 5px;
 }
 
-.sidebar-name a
-{
+.sidebar-name a {
     display: block;
     height: 100%;
     text-decoration: none;
     color: inherit;
 }
 
-.sidebar-name:hover
-                  {
-                      background-color:#e1e2e5;
-                  }
+.sidebar-name:hover {
+    background-color:#e1e2e5;
+}
 
-.sidebar-name img
-{
+.sidebar-name img {
     width: 32px;
     height: 32px;
     vertical-align:middle;
 }
 
-.popup-box
-{
+.popup-box {
     display: none;
     position: fixed;
     bottom: 0px;
@@ -367,8 +357,7 @@ body {
     border: 1px solid rgba(29, 49, 91, .3);
 }
 
-.popup-box .popup-head
-{
+.popup-box .popup-head {
     background-color: #6d84b4;
     padding: 5px;
     color: white;
@@ -377,25 +366,21 @@ body {
     clear: both;
 }
 
-.popup-box .popup-head .popup-head-left
-{
+.popup-box .popup-head .popup-head-left{
     float: left;
 }
 
-.popup-box .popup-head .popup-head-right
-{
+.popup-box .popup-head .popup-head-right{
     float: right;
     opacity: 0.5;
 }
 
-.popup-box .popup-head .popup-head-right a
-{
+.popup-box .popup-head .popup-head-right a{
     text-decoration: none;
     color: inherit;
 }
 
-.popup-box .popup-messages
-{
+.popup-box .popup-messages{
     height: 80%;
     overflow-y: scroll;
 }
@@ -469,6 +454,11 @@ body {
     background-repeat: no-repeat;
 }
 
+.profile-status.offline{
+    background-image: url("/img/social/chat-offline.png");
+    background-repeat: no-repeat;
+}
+
 .profile-status{
     display: block;
     float: right;
@@ -476,6 +466,22 @@ body {
     margin: 8px 4px 0;
     width: 7px;
 }
+
+/****************** buddy notification *********************/
+#notification-count {
+    padding: 3px 7px 3px 7px;
+    background: #cc0000;
+    color: #ffffff;
+    font-weight: bold;
+    /* margin-left: 77px; */
+    display : none;
+    border-radius: 9px;
+    position: absolute;
+    margin-top: -11px;
+    font-size: 11px;
+}
+
+
 
 
 /******************* shuttle bus **************************/
