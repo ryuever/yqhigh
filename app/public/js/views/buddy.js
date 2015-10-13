@@ -5,14 +5,26 @@ var socket = io();
 var notify_msg = {};
 $(document).ready(function(){
     $(".wp_top_tabs .notify").click(function(){
-        for (var key in notify_msg){
-            register_popup(key, key);
-            $.each(notify_msg[key], function(index, value){
-                $("#"+key+"-msg").append($('<p>').text(value));
-            });            
+        var notify_html = "";
+        if (Object.keys(notify_msg).length > 0){
+            notify_html = '<ul>';
+            for (var key in notify_msg){
+                $.each(notify_msg[key], function(index, value){
+                    $("#"+key+"-msg").append($('<p>').text(value));
+                });
+                notify_html = notify_html + '<li>' +
+                    '<a href=javascript:register_popup("'+ key +'"' + ',"' + key + '")>message </a>'
+                    + 'from ' + key + '</li>';
+            }
+            notify_html = notify_html + '</ul>';
+        }else{
+            notify_html = "<p> no notification messages </p>";
         }
-        $("#notification-count").hide();        
-        notify_msg = {};
+        
+        $("#notification-count").hide("slow");        
+        $("#chat-container").show();
+        $("#chat-container").html(notify_html);
+        $("#chat-container").show();
     });
     
     $("#webpager .friends").click(function(){
@@ -28,10 +40,24 @@ $(document).ready(function(){
             type:'get',
             timeout: 5000,
             success: function(data){
+        //- div(id="buddy-collection")
+        //- div(id="buddy" style="height: 590px;")
+        //-     div(class="wp_collector_box" style="height: 500px;")
+        //-         #friends.wp_collector.friends
+        //-             div(class="collector_title friends" data-type="friends")
+        //-                 span.text 全部好友
+        //-                 span.num 20
+        //-         #group.wp_collector.groups
+
+                var buddy_layout = '<div id="buddy-collection"></div><div id="buddy" style="height: 590px;"><div style="height: 500px;" class="wp_collector_box"><div id="friends" class="wp_collector friends"><div data-type="friends" class="collector_title friends"><span class="text">全部好友</span><span class="num">20</span></div></div><div id="group" class="wp_collector groups"></div></div></div>';
+                
+                $('#chat-container').html(buddy_layout);
+                
                 var s=document.getElementById('buddy-collection');
+                $('#buddy-collection').html('');                
                 var li_item;
                 var a_item;
-                var online_item;
+                var online_item;                
                 var ul_item = document.createElement("ul");
                 window.username = data.record.name;
                 window.user_friends = data.record.friends;
@@ -52,10 +78,10 @@ $(document).ready(function(){
                     ul_item.appendChild(li_item);
                 }
                 s.appendChild(ul_item);
-
+                $("#chat-container #friends .num").text(" [ " + data.record.friends.length + " ]");
+                
                 socket.emit('appendBuddyGroup', {friends : window.user_friends,
-                                                 group : window.user_group});                                                 
-
+                                                 group : window.user_group}); 
             },
             error: function(jqXHR, textStatus, errorThrown){
                 alert("get friends error");
@@ -122,29 +148,42 @@ function display_popups()
 function register_popup(id, name)
 {
     
-    for(var iii = 0; iii < popups.length; iii++)
-    {   
+    for(var iii = 0; iii < popups.length; iii++){   
         //already registered. Bring it to front.
-        if(id == popups[iii])
-        {
+        if(id == popups[iii]){
             Array.remove(popups, iii);
-            
             popups.unshift(id);
-            
             calculate_popups();
-            
-            
             return;
         }
-    }               
+    } 
     
     var element = '<div class="popup-box chat-popup" id="'+ id +'">';
     element = element + '<div class="popup-head">';
     element = element + '<div class="popup-head-left">'+ name +'</div>';
     element = element + '<div class="popup-head-right"><a href="javascript:close_popup(\''+ id +'\');">&#10005;</a></div>';
     // element = element + '<div style="clear: both"></div></div><div class="popup-messages"></div><input class="message-input" ' + 'id="' + name +'-message"' +'></div>';
-    element = element + '<div style="clear: both"></div></div><div class="popup-messages" id="'+name+'-msg"></div><input class="message-input" ' + 'id="' + name +'-message"' +'></div>';
-    
+    element = element + '<div style="clear: both"></div></div>';
+
+    var hasMsg = false;
+    for (var i in notify_msg) {
+        if (notify_msg.hasOwnProperty(i)){
+            hasMsg = true;
+            var msg_items = "<ul>";
+            $.each( notify_msg[i], function( key, value ) {                
+                msg_items = msg_items +'<li>'+i+ ':'+value+ '</li>';
+            });
+            msg_items = msg_items + '</ul>';                    
+            element = element + '<div class="popup-messages" id="'+name+'-msg">'+msg_items + '</div>';
+            delete notify_msg[i];
+        }
+    }
+    if(!hasMsg){
+        element = element + '<div class="popup-messages" id="'+name+'-msg"></div>';
+    }
+    element = element + '<input class="message-input" ' + 'id="' + name +'-message"' +'></div>';
+
+    notify_msg = {};
     document.getElementsByTagName("body")[0].innerHTML = document.getElementsByTagName("body")[0].innerHTML + element;
 
     // $("#" + name + '-message').focus();
