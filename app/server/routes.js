@@ -25,8 +25,9 @@ module.exports = function(app) {
 		}
 	});
 	
-	app.post('/', function(req, res){
+	app.post('/', function(req, res){        
 		AM.manualLogin(req.body['user'], req.body['pass'], function(e, o){
+            console.log("auto login", req.body['user'], req.body['pass']);
 			if (!o){
 				res.status(400).send(e);
 			}	else{
@@ -99,9 +100,11 @@ module.exports = function(app) {
 				}
 			});
 		}	else if (req.body['logout'] == 'true'){
+            console.log("log out successuful new");
 			res.clearCookie('user');
 			res.clearCookie('pass');
-			req.session.destroy(function(e){ res.status(200).send('ok'); });
+			req.session.destroy(function(e){ res.status(200).send('ok'); });            
+            // req.session.destroy(function(e){ res.redirect('/');});
 		}
 	});
 	
@@ -251,6 +254,60 @@ module.exports = function(app) {
         }
     });
 
+    app.get('/:username/party/supervision', function(req, res){
+        if (req.session.user == null){
+	        // if user is not logged-in redirect back to login page //
+			res.redirect('/');
+		}else{
+            var perPage = 10, 
+                page = req.query.page > 0 ? req.query.page : 1;
+
+            // console.log("page", page);
+            PM.partySupervision(req.params.username, page, perPage, function(err, pages, records){       
+                if (!err){
+                    // console.log("parties list", records, "pages", pages, "page", page);
+                    res.render("user-parties",{
+                        records : records,
+                        totalPages  : pages,
+                        currentPage   : page,
+                        udata  : req.session.user
+                    });
+                } else {
+                    res.status(400).send("no records");
+                }
+		    });
+        }
+    });
+
+    app.get('/:username/party/attendance', function(req, res){
+        if (req.session.user == null){
+	        // if user is not logged-in redirect back to login page //
+			res.redirect('/');
+		}else{
+            var perPage = 10, 
+                page = req.query.page > 0 ? req.query.page : 1;
+
+            // console.log("page", page);
+            PM.partyAttendance(req.params.username, page, perPage, function(err, pages, records){       
+                if (!err){
+                    // console.log("parties list", records, "pages", pages, "page", page);
+                    // res.render("user-parties",{
+                    //     records : records,
+                    //     totalPages  : pages,
+                    //     currentPage   : page,
+                    //     udata  : req.session.user
+                    // });
+                    res.status(200).send('not finieshed');
+                } else {
+                    res.status(400).send("no records");
+                }
+		    });
+        }
+    });
+
+
+    
+
     app.get('/parties/:id', function(req, res){
         if (req.session.user == null){
 	        // if user is not logged-in redirect back to login page //
@@ -329,11 +386,6 @@ module.exports = function(app) {
 				    // res.status(200).send('ok');
 			    }
 		    });
-			// res.render('parties', {
-			// 	title : 'My Page',
-			// 	countries : CT,
-			// 	udata : req.session.user
-			// });
 		}                
 
     });

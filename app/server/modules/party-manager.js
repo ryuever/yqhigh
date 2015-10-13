@@ -34,6 +34,31 @@ exports.partiesPagination = function(page,perPage,callback) {
         });
     });
 };
+exports.partySupervision = function(username, page,perPage,callback) {
+    parties.count({}, function (err, count) {
+        // parties.find({}).sort({'_id':-1}).skip((page-1)*perPage).limit(perPage).toArray(function(err,records){
+        parties.find({manager:username}, {sort : {'_id':-1}}).skip((page-1)*perPage).limit(perPage).toArray(function(err,records){            
+            if (err) callback(err);
+		    else {
+                var pages = Math.ceil(count / perPage);
+                callback(null, pages, records);
+            }
+        });
+    });
+};
+
+exports.partyAttendance = function(username, page,perPage,callback) {
+    parties.count({}, function (err, count) {
+        // parties.find({}).sort({'_id':-1}).skip((page-1)*perPage).limit(perPage).toArray(function(err,records){
+        parties.find({manager:username}, {sort : {'_id':-1}}).skip((page-1)*perPage).limit(perPage).toArray(function(err,records){            
+            if (err) callback(err);
+		    else {
+                var pages = Math.ceil(count / perPage);
+                callback(null, pages, records);
+            }
+        });
+    });
+};
 
 
 // exports.getAllRecords = function(callback)
